@@ -1,7 +1,6 @@
 package org.example.reviewservice.exeptions;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,12 +28,16 @@ public class GlobalExceptionHandler {
         problem.setDetail("One or more fields are invalid");
         problem.setInstance(java.net.URI.create(request.getRequestURI()));
 
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> invalidFields = new HashMap<>();
 
-        ex.getBindingResult().getFieldErrors()
-                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        ex.getBindingResult()
+                .getFieldErrors()
+                .forEach(error -> invalidFields
+                        .put(error
+                                .getField(), error
+                                .getDefaultMessage()));
 
-        problem.setProperty("errors", errors);
+        problem.setProperty("invalidFields", invalidFields);
 
         return problem;
     }
