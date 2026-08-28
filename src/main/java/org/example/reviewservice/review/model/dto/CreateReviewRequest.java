@@ -9,10 +9,11 @@ import java.time.LocalDate;
 
 public record CreateReviewRequest(
 
-        @NotBlank(message = "Room id is required")
+        @NotNull(message = "Room id is required")
         Long roomId,
 
-        @NotBlank(message = "Betyg får inte vara tomt")
+        String reviewerName,
+
         @NotNull(message = "Det båste anges ett betyg")
         @Min(value = 1, message = "Minsta betyg är 1")
         @Max(value = 5, message = "Max betyg är 5")
