@@ -3,7 +3,6 @@ package org.example.reviewservice.review.model;
 import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -15,8 +14,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String reviewerName;
+
     @NotNull(message = "Must have a room id")
-    @NotBlank(message = "Rumsid måste anges")
     Long roomId;
 
     int rating;
@@ -29,8 +29,9 @@ public class Review {
     public Review() {
     }
 
-    public Review(Long id, Long roomId, int rating, String reviewText, LocalDate reviewDate) {
+    public Review(Long id, String reviewerName, Long roomId, int rating, String reviewText, LocalDate reviewDate) {
         this.id = id;
+        this.reviewerName = reviewerName;
         this.roomId = roomId;
         this.rating = rating;
         this.reviewText = reviewText;
@@ -47,6 +48,14 @@ public class Review {
 
     public Long getRoomId() {
         return roomId;
+    }
+
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewName) {
+        this.reviewerName = reviewName;
     }
 
     public void setRoomId(Long roomId) {

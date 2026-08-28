@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record ReviewResponse(
         Long id,
+        String reviewerName,
         Long roomId,
         int rating,
         String reviewText,

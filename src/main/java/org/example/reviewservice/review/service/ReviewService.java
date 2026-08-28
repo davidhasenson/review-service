@@ -28,6 +28,7 @@ public class ReviewService {
         Review review = new Review();
 
         review.setRoomId(request.roomId());
+        review.setReviewerName(request.reviewerName());
         review.setRating(request.rating());
         review.setReviewText(request.reviewText());
         review.setReviewDate(request.reviewDate());
@@ -62,6 +63,7 @@ public class ReviewService {
     private ReviewResponse convertToReviewResponse(Review review) {
         return new ReviewResponse(
                 review.getId(),
+                review.getReviewerName(),
                 review.getRoomId(),
                 review.getRating(),
                 review.getReviewText(),
