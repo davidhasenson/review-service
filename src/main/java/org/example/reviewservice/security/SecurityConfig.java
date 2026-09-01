@@ -3,6 +3,7 @@ package org.example.reviewservice.security;
 import org.example.reviewservice.jwt.filter.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,8 +23,11 @@ public class SecurityConfig {
     SecurityFilterChain chain(HttpSecurity http) throws Exception {
         return http
                 .csrf(c -> c.disable())
+                .cors(c ->{})
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/reviews/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -32,6 +36,4 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
 }
