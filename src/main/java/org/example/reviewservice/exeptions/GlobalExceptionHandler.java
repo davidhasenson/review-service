@@ -10,7 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,19 +67,18 @@ public class GlobalExceptionHandler {
 
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.SERVICE_UNAVAILABLE);
         problem.setTitle("Service Unavailable");
-        problem.setDetail("Unable to reach the database at the moment. Try again in a little while.");
-        problem.setInstance(URI.create(request.getRequestURI()));
+        problem.setDetail(ex.getMessage());
+        problem.setInstance(java.net.URI.create(request.getRequestURI()));
         return problem;
     }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleException(Exception ex, HttpServletRequest request) {
-        logger.error("An unexpected error occurred at {} {}", request.getMethod(), request.getRequestURI(), ex);
-
+        logger.error("An unexpected error occurred at {} {} {}", request.getMethod(), request.getRequestURI(), ex.getMessage(), ex);
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         problem.setTitle("Internal Server Error");
         problem.setDetail("An unexpected error occurred. Try again later.");
-        problem.setInstance(URI.create(request.getRequestURI()));
+        problem.setInstance(java.net.URI.create(request.getRequestURI()));
         return problem;
     }
 }
