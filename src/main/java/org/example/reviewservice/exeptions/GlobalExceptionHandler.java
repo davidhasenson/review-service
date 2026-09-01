@@ -3,12 +3,14 @@ package org.example.reviewservice.exeptions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,16 +44,6 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleException(Exception ex, HttpServletRequest request) {
-        logger.error(ex.getMessage(), ex);
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        problem.setTitle("Internal Server Error");
-        problem.setDetail("An error occurred while processing the request");
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
-        return problem;
-    }
-
     @ExceptionHandler(NotFoundException.class)
     public ProblemDetail handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
@@ -70,4 +62,25 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(DataAccessException.class)
+    public ProblemDetail handleDataAccessException(DataAccessException ex, HttpServletRequest request) {
+        logger.error("Database-error at {} {}", request.getMethod(), request.getRequestURI(), ex);
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.SERVICE_UNAVAILABLE);
+        problem.setTitle("Service Unavailable");
+        problem.setDetail("Unable to reach the database at the moment. Try again in a little while.");
+        problem.setInstance(URI.create(request.getRequestURI()));
+        return problem;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleException(Exception ex, HttpServletRequest request) {
+        logger.error("An unexpected error occurred at {} {}", request.getMethod(), request.getRequestURI(), ex);
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problem.setTitle("Internal Server Error");
+        problem.setDetail("An unexpected error occurred. Try again later.");
+        problem.setInstance(URI.create(request.getRequestURI()));
+        return problem;
+    }
 }
