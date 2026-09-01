@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class GlobalExceptionHandler {
 
         problem.setTitle("Validation Failed");
         problem.setDetail("One or more fields are invalid");
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
+        problem.setInstance(URI.create(request.getRequestURI()));
 
         Map<String, String> invalidFields = new HashMap<>();
 
@@ -48,7 +49,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problem.setTitle("Not Found");
         problem.setDetail(ex.getMessage());
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
+        problem.setInstance(URI.create(request.getRequestURI()));
         return problem;
     }
 
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problem.setTitle("Bad Request");
         problem.setDetail(ex.getMessage());
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
+        problem.setInstance(URI.create(request.getRequestURI()));
         return problem;
     }
 
@@ -68,7 +69,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.SERVICE_UNAVAILABLE);
         problem.setTitle("Service Unavailable");
         problem.setDetail(ex.getMessage());
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
+        problem.setInstance(URI.create(request.getRequestURI()));
         return problem;
     }
 
@@ -78,7 +79,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         problem.setTitle("Internal Server Error");
         problem.setDetail("An unexpected error occurred. Try again later.");
-        problem.setInstance(java.net.URI.create(request.getRequestURI()));
+        problem.setInstance(URI.create(request.getRequestURI()));
         return problem;
     }
 }
