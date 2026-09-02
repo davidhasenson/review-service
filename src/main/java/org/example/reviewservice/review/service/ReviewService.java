@@ -1,15 +1,13 @@
 package org.example.reviewservice.review.service;
 
 import jakarta.transaction.Transactional;
-import org.example.reviewservice.exeptions.NotFoundException;
+import org.example.reviewservice.exceptions.NotFoundException;
 import org.example.reviewservice.review.model.Review;
 import org.example.reviewservice.review.model.dto.CreateReviewRequest;
 import org.example.reviewservice.review.model.dto.ReviewResponse;
 import org.example.reviewservice.review.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

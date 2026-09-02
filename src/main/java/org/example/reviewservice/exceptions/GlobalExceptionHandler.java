@@ -1,4 +1,4 @@
-package org.example.reviewservice.exeptions;
+package org.example.reviewservice.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
