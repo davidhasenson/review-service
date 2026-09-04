@@ -14,10 +14,25 @@ spec:
     spec:
       containers:
         - name: review-service
-          image: review-service
+          image: pensionat-review-service:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8082
+          env:
+            - name: DB_URL
+              value: jdbc:mysql://review-db:3306/reviewdb
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: review-secrets
+                  key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: review-secrets
+                  key: JWT_SECRET
 
 ---
 
@@ -26,9 +41,9 @@ kind: Service
 metadata:
   name: review-service
 spec:
+  type: LoadBalancer
   selector:
     app: review-service
   ports:
     - port: 8082
       targetPort: 8082
-
