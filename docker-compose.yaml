@@ -1,14 +1,24 @@
 services:
 
-  customer-db:
+  reviewdb:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_USERNAME}
-      MYSQL_DATABASE: review-db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: reviewdb
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p12345" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  customer-service:
+  review-service:
     build: .
     ports:
       - "8082:8082"
+    env_file:
+      - .env
+    environment:
+      DB_URL: jdbc:mysql://reviewdb:3306/reviewdb
     depends_on:
-      - review-db
+      reviewdb:
+        condition: service_healthy
