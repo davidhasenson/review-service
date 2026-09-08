@@ -1,15 +1,16 @@
 services:
 
-  reviewdb:
+  review-db:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: reviewdb
+      MYSQL_DATABASE: review_db
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$DB_PASSWORD" ]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$DB_PASSWORD"]
       interval: 5s
       timeout: 5s
       retries: 10
+      start_period: 60s
 
   review-service:
     build: .
@@ -18,7 +19,7 @@ services:
     env_file:
       - .env
     environment:
-      DB_URL: jdbc:mysql://reviewdb:3306/reviewdb
+      DB_URL: jdbc:mysql://review-db:3306/review_db
     depends_on:
-      reviewdb:
+      review-db:
         condition: service_healthy
