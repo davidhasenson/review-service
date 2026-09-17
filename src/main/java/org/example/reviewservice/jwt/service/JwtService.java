@@ -7,23 +7,23 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
+//import java.util.Date;
 
 @Service
 public class JwtService {
 
-    @Value("${jwt_secret}")
-    String SECRET;
+    @Value("${jwt.secret}")
+    private String SECRET;
 
-    //15 minutes is equal to 900 000 milliseconds.
-    public String generateToken(String username) {
-        return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 900000))
-                .signWith(getSignInKey())
-                .compact();
-    }
+//    //15 minutes is equal to 900 000 milliseconds.
+//    public String generateToken(String username) {
+//        return Jwts.builder()
+//                .subject(username)
+//                .issuedAt(new Date())
+//                .expiration(new Date(System.currentTimeMillis() + 900000))
+//                .signWith(getSignInKey())
+//                .compact();
+//    }
 
     public String extractUsername(String token) {
         return Jwts.parser()
