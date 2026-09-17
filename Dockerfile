@@ -2,6 +2,11 @@ FROM maven:3.9.9-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
+ENV JWT_SECRET=${JWT_SECRET}
+ENV DB_URL=${DB_URL}
+ENV DB_USERNAME=${DB_USERNAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
+
 COPY pom.xml .
 
 COPY src ./src
@@ -14,6 +19,6 @@ WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
 
 
