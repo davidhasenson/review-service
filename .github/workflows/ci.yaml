@@ -52,3 +52,10 @@ jobs:
 #          DB_USERNAME: ${{ vars.DB_USERNAME }}
 #          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 #          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: review-app:latest
