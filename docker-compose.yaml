@@ -18,8 +18,8 @@ services:
       - "8082:8082"
     env_file:
       - .env
-#    environment:
-#      DB_URL: jdbc:mysql://review-db:3306/review_db
+    environment:
+      DB_URL: jdbc:mysql://review-db:3306/review_db
     depends_on:
       review-db:
         condition: service_healthy
