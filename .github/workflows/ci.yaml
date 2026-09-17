@@ -78,7 +78,6 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/review-servise:latest
 
-
 #          tags: |
 #            dindockerhubanvandarnamn/ditt-repo-namn:latest
 #            ghcr.io/${{ github.repository_owner }}/review-servise:latest
