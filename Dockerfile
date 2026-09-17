@@ -2,11 +2,6 @@ FROM maven:3.9.9-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-ENV JWT_SECRET=${JWT_SECRET}
-ENV DB_URL=${DB_URL}
-ENV DB_USERNAME=${DB_USERNAME}
-ENV DB_PASSWORD=${DB_PASSWORD}
-
 COPY pom.xml .
 
 COPY src ./src
@@ -18,6 +13,11 @@ FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 COPY --from=builder /app/target/*.jar app.jar
+
+ENV JWT_SECRET=${JWT_SECRET}
+ENV DB_URL=${DB_URL}
+ENV DB_USERNAME=${DB_USERNAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
 
 CMD ["java", "-jar", "app.jar"]
 
