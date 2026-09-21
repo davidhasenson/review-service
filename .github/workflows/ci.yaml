@@ -87,12 +87,12 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push to Docker Hub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-           ${{ secrets.DOCKER_USERNAME }}/review-servise:latest
+           ${{ secrets.DOCKER_USERNAME }}/review-service:latest
 
       - name: Log in to GitHub Container Registry (GHCR)
         uses: docker/login-action@v3
@@ -102,7 +102,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push to GitHub Container Registry
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
