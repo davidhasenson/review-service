@@ -107,7 +107,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/review-servise:latest
+            ghcr.io/${{ github.repository_owner }}/review-service:latest
 
 
 
