@@ -110,3 +110,4 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/review-service:v${{ github.run_number }}
             ghcr.io/${{ github.repository_owner }}/review-service:latest
+
