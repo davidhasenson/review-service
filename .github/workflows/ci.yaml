@@ -99,19 +99,19 @@ jobs:
             ${{ vars.DOCKER_USERNAME }}/review-service:v${{ github.run_number }}
             ${{ vars.DOCKER_USERNAME }}/review-service:latest
 
-      - name: Log in to GitHub Container Registry (GHCR)
-        if: github.event_name == 'push'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push to GitHub Container Registry
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/review-service:v${{ github.run_number }}
-            ghcr.io/${{ github.repository_owner }}/review-service:latest
+#      - name: Log in to GitHub Container Registry (GHCR)
+#        if: github.event_name == 'push'
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Build and push to GitHub Container Registry
+#        uses: docker/build-push-action@v6
+#        with:
+#          context: .
+#          push: true
+#          tags: |
+#            ghcr.io/${{ github.repository_owner }}/review-service:v${{ github.run_number }}
+#            ghcr.io/${{ github.repository_owner }}/review-service:latest
